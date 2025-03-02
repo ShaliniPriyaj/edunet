@@ -30,7 +30,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div>
+      <h1 style={{justifyContent:"center",textAlign:"center",color:"white"}}>FinanceHub</h1>
+    <div className="container d-flex justify-content-center align-items-center ">
       <div className="card p-4 shadow-lg" style={{ width: "350px" }}>
         <h2 className="text-center">Login</h2>
         {error && <p className="text-danger text-center">{error}</p>}
@@ -66,7 +68,7 @@ const LoginPage = () => {
         </form>
       </div>
     </div>
-
+    </div>
   );
 };
 
