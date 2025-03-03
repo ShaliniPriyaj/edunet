@@ -1,0 +1,227 @@
+
+
+/* Gradient Animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Twinkling Effect */
+@keyframes twinkle {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes moveStars {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Full-Screen Background */
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0d1b2a, #1b263b, #415a77, #778da9);
+  background-size: 200% 200%;
+  z-index: -1;
+  animation: gradientMove 5s infinite alternate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://www.transparenttextures.com/patterns/stardust.png");
+  opacity: 0.6;
+  animation: twinkle 5s infinite alternate, moveStars 10s linear infinite; 
+  z-index: -1; /* Ensure it stays behind other content */
+}
+
+
+
+/* Center the Auth Card */
+.auth-container {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+/* Title */
+.auth-container h2 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Form Input Fields */
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  outline: none;
+}
+
+.auth-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Submit Button */
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  background: #ff5722;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+.auth-container button:hover {
+  background: #e64a19;
+}
+
+/* Link Styling */
+.auth-container a {
+  display: block;
+  margin-top: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.auth-container a:hover {
+  text-decoration: underline;
+}
+
+/* Error & Success Messages */
+.error-message {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: #4caf50;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary:hover {
+  background-color: #6c757d;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* General Navbar Styling */
+.navbar {
+  padding: 12px 20px;
+  box-shadow: 0 4px 6px rgba(122, 20, 143, 0.1);
+}
+
+/* Navbar Brand */
+.navbar-brand {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff !important;
+  transition: 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+  color: #f8f9fa !important;
+  transform: scale(1.05);
+}
+
+/* Navbar Items */
+.navbar-nav .nav-item {
+  margin-left: 15px;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ffffff !important;
+  transition: 0.3s ease-in-out;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #f8f9fa !important;
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* Responsive Navbar */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar-nav .nav-item {
+    margin: 10px 0;
+  }
+}
