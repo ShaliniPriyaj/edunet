@@ -26,10 +26,10 @@ const NavigationBar = () => {
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/add-expense">Add Expense</Link>
+              <Link className="nav-link" to="/add">Add Finances </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/expenses">View Expenses</Link>
+              <Link className="nav-link" to="/view">View Finances</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/reports">View Reports</Link>

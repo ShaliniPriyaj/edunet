@@ -37,6 +37,18 @@ const ExpenseSchema = new mongoose.Schema({
   
 const Expense = mongoose.model("Expense", ExpenseSchema);
   
+
+const IncomeSchema = new mongoose.Schema({
+  title: String,
+  amount: Number,
+  category: String,
+  date: String,
+  userId: String, // To link incomes to users
+});
+
+const Income = mongoose.model("Income", IncomeSchema);
+
+
 // ✅ Signup Route
 app.post("/signup", async (req, res) => {
   try {
@@ -125,6 +137,29 @@ const verifyToken = (req, res, next) => {
     }
   });
   
+  app.post("/incomes", verifyToken, async (req, res) => {
+    const { title, amount, category, date } = req.body;
+    const newIncome = new Income({ title, amount, category, date, userId: req.userId });
+  
+    try {
+      await newIncome.save();
+      res.json({ message: "Income added successfully" });
+    } catch (err) {
+      res.status(400).json({ error: "Failed to add income" });
+    }
+  });
+  
+  // Fetch all incomes for the logged-in user
+  app.get("/incomes", verifyToken, async (req, res) => {
+    try {
+      const incomes = await Income.find({ userId: req.userId });
+      res.json(incomes);
+    } catch (err) {
+      res.status(400).json({ error: "Failed to fetch incomes" });
+    }
+  });
+
+
   // ✅ Delete Expense Route
 app.delete("/expenses/:id", verifyToken, async (req, res) => {
   const { id } = req.params; // Get the expense ID from the request parameters
@@ -146,6 +181,28 @@ app.delete("/expenses/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete expense" });
   }
 });
+
+app.delete("/income/:id", verifyToken, async (req, res) => {
+  const { id } = req.params; // Get the income ID from request parameters
+
+  try {
+    // Find the income entry by ID and ensure it belongs to the user
+    const income = await Income.findOne({ _id: id, userId: req.userId });
+
+    if (!income) {
+      return res.status(404).json({ error: "Income not found or not authorized" });
+    }
+
+    // Delete the income entry
+    await Income.findByIdAndDelete(id);
+
+    res.json({ message: "Income removed successfully" });
+  } catch (err) {
+    console.error("Error deleting income:", err);
+    res.status(500).json({ error: "Failed to delete income" });
+  }
+});
+
 
 // Assuming you have the Expense model already defined
 app.get("/monthly-spending", verifyToken, async (req, res) => {

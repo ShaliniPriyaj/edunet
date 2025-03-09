@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Expenses = () => {
-  const [expenses, setExpenses] = useState([
-    { id: 1, title: "Groceries", amount: 50, category: "Food", date: "2024-02-25" },
-    { id: 2, title: "Electric Bill", amount: 100, category: "Bills", date: "2024-02-20" },
-    { id: 3, title: "Movie", amount: 30, category: "Entertainment", date: "2024-02-22" },
-    { id: 4, title: "Gym", amount: 40, category: "Bills", date: "2024-02-18" },
-  ]);
-
+  const [expenses, setExpenses] = useState([]);
   const [sortBy, setSortBy] = useState("date"); // Default sorting by date
   const [filterCategory, setFilterCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const removeExpense = (id) => {
+  // Fetch expenses from the server
+  const fetchExpenses = async () => {
+    try {
+      const token = localStorage.getItem("token"); // Assuming you store the JWT token in localStorage
+      const response = await axios.get("http://localhost:5000/expenses", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setExpenses(response.data);
+    } catch (err) {
+      setError("Failed to fetch expenses");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const removeExpense = async (id) => {
     if (window.confirm("Are you sure you want to delete this expense?")) {
-      setExpenses(expenses.filter((expense) => expense.id !== id));
+      try {
+        const token = localStorage.getItem("token");
+        await axios.delete(`http://localhost:5000/expenses/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setExpenses(expenses.filter((expense) => expense.id !== id));
+      } catch (err) {
+        console.error("Failed to delete expense", err);
+      }
     }
   };
 
@@ -34,6 +63,9 @@ const Expenses = () => {
 
   // Get unique categories for dropdown
   const categories = ["All", ...new Set(expenses.map(expense => expense.category))];
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="container mt-4 ">
@@ -82,7 +114,7 @@ const Expenses = () => {
             <tbody>
               {filteredExpenses.length > 0 ? (
                 filteredExpenses.map((expense, index) => (
-                  <tr key={expense.id} className={index % 2 === 0 ? "table-light" : "table-secondary"}>
+                  <tr key={expense._id} className={index % 2 === 0 ? "table-light" : "table-secondary"}>
                     <td>{expense.title}</td>
                     <td>${expense.amount.toFixed(2)}</td>
                     <td>{expense.category}</td>
@@ -90,7 +122,7 @@ const Expenses = () => {
                     <td>
                       <button 
                         className="btn btn-danger btn-sm"
-                        onClick={() => removeExpense(expense.id)}
+                        onClick={() => removeExpense(expense._id)}
                       >
                         Remove
                       </button>
